@@ -1,104 +1,88 @@
 import React, { useState } from 'react';
+import RoundSelector from './RoundSelector';
 import PointsTable from './PointsTable';
 import MatchesTable from './MatchesTable';
-import RoundSelector from './RoundSelector';
 
-// Mock data for a single tournament's details
-const mockPlayers = [
-  { no: 1, name: 'Magnus Carlsen', rating: 2830, score: 3, wins: 3, draws: 0, losses: 0 },
-  { no: 2, name: 'Hikaru Nakamura', rating: 2788, score: 2, wins: 2, draws: 0, losses: 1 },
-  { no: 3, name: 'Fabiano Caruana', rating: 2804, score: 2, wins: 2, draws: 0, losses: 1 },
-  { no: 4, name: 'Anish Giri', rating: 2762, score: 1, wins: 1, draws: 0, losses: 2 },
-  { no: 5, name: 'R Praggnanandhaa', rating: 2747, score: 1, wins: 1, draws: 0, losses: 2 },
-];
-
-const mockMatches = [
-    { no: 1, black: 'Magnus Carlsen', white: 'Anish Giri', result: '1-0', status: 'Completed' },
-    { no: 2, black: 'Hikaru Nakamura', white: 'R Praggnanandhaa', result: '0-1', status: 'Completed' },
-    { no: 3, black: 'Fabiano Caruana', white: 'Player F', result: '...', status: 'Pending' },
-];
-
-
+// This is the main component to display details for a single tournament
 const FixtureDisplay = ({ tournament }) => {
+  // If no tournament is selected, don't show anything
+  if (!tournament) {
+    return (
+      <div style={styles.container}>
+        <p style={styles.placeholder}>Select a tournament to view its fixtures.</p>
+      </div>
+    );
+  }
+
   const [selectedRound, setSelectedRound] = useState(1);
-  const totalRounds = tournament.rounds || 5;
 
   return (
-    <div style={styles.card}>
+    <div style={styles.container}>
       <div style={styles.header}>
         <div>
-          <h2 style={styles.tournamentName}>{tournament.name}</h2>
-          <p style={styles.tournamentLocation}>{tournament.location}</p>
+          <h2 style={styles.title}>{tournament.name}</h2>
+          <p style={styles.location}>{tournament.location}</p>
         </div>
-        <div style={styles.controls}>
-          <RoundSelector
-            totalRounds={totalRounds}
-            selectedRound={selectedRound}
-            onSelectRound={setSelectedRound}
-          />
-          <button style={styles.generateButton}>Generate Next Round</button>
-        </div>
+        <RoundSelector
+          totalRounds={tournament.rounds}
+          selectedRound={selectedRound}
+          onRoundChange={setSelectedRound}
+        />
       </div>
-
-      <div>
+      
+      <div style={styles.section}>
         <h3 style={styles.sectionTitle}>Points Table (Round {selectedRound})</h3>
-        <PointsTable players={mockPlayers} />
+        <PointsTable round={selectedRound} />
       </div>
 
-      <div style={{marginTop: '30px'}}>
+      <div style={styles.section}>
         <h3 style={styles.sectionTitle}>Matches (Round {selectedRound})</h3>
-        <MatchesTable matches={mockMatches} />
+        <MatchesTable round={selectedRound} />
       </div>
     </div>
   );
 };
 
 const styles = {
-    card: {
-        backgroundColor: '#ffffff',
-        padding: '30px',
-        borderRadius: '12px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-    },
-    header: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderBottom: '1px solid #eee',
-        paddingBottom: '20px',
-        marginBottom: '20px',
-    },
-    tournamentName: {
-        fontSize: '28px',
-        fontWeight: '700',
-        color: '#0d47a1', // Dark Blue
-        margin: 0,
-    },
-    tournamentLocation: {
-        fontSize: '16px',
-        color: '#555',
-        margin: '5px 0 0',
-    },
-    controls: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '15px',
-    },
-    generateButton: {
-        padding: '10px 18px',
-        backgroundColor: '#f57c00', // Orange
-        color: 'white',
-        border: 'none',
-        borderRadius: '8px',
-        fontSize: '14px',
-        fontWeight: '600',
-        cursor: 'pointer',
-    },
-    sectionTitle: {
-        fontSize: '20px',
-        color: '#0d47a1',
-        marginBottom: '15px',
-    }
+  container: {
+    flex: 3,
+    padding: '20px',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '10px',
+  },
+  placeholder: {
+    textAlign: 'center',
+    fontSize: '18px',
+    color: '#777',
+    marginTop: '50px',
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottom: '2px solid #ddd',
+    paddingBottom: '15px',
+    marginBottom: '20px',
+  },
+  title: {
+    fontSize: '28px',
+    color: '#004080', // Blue
+    margin: 0,
+  },
+  location: {
+    fontSize: '16px',
+    color: '#555',
+    margin: '5px 0 0 0',
+  },
+  section: {
+    marginBottom: '30px',
+  },
+  sectionTitle: {
+    fontSize: '22px',
+    color: '#333',
+    marginBottom: '15px',
+  },
 };
 
 export default FixtureDisplay;
+
