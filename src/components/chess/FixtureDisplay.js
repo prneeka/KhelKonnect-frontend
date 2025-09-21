@@ -3,9 +3,12 @@ import RoundSelector from './RoundSelector';
 import PointsTable from './PointsTable';
 import MatchesTable from './MatchesTable';
 
-// This is the main component to display details for a single tournament
 const FixtureDisplay = ({ tournament }) => {
-  // If no tournament is selected, don't show anything
+  // --- FIX ---
+  // Hooks must be called at the top level, before any returns.
+  const [selectedRound, setSelectedRound] = useState(1);
+
+  // Now we can have our condition and early return.
   if (!tournament) {
     return (
       <div style={styles.container}>
@@ -13,8 +16,6 @@ const FixtureDisplay = ({ tournament }) => {
       </div>
     );
   }
-
-  const [selectedRound, setSelectedRound] = useState(1);
 
   return (
     <div style={styles.container}>
