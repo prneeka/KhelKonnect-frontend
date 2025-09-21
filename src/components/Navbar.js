@@ -3,9 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import '../fonts.css';
 
-const sections = ['home', 'places', 'sports', 'events', 'about', 'search']; // ✅ Added events here
+const sections = ['home', 'places', 'sports', 'events', 'about', 'search'];
 
 const Navbar = () => {
+  // --- New Feature ---
+  // We'll use a simple state to simulate if the user is logged in.
+  // In a real app, this would come from your authentication context.
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Set to true to see the "Account" button
+
   const [activeSection, setActiveSection] = useState('home');
   const [hovered, setHovered] = useState(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -111,12 +116,23 @@ const Navbar = () => {
         })}
       </div>
 
-      <button
-        style={styles.loginButton}
-        onClick={() => navigate('/login')}
-      >
-        Login
-      </button>
+      {/* --- New Feature --- */}
+      {/* Conditionally render Login or Account button */}
+      {isLoggedIn ? (
+        <button
+          style={styles.loginButton}
+          onClick={() => navigate('/dashboard')}
+        >
+          Account
+        </button>
+      ) : (
+        <button
+          style={styles.loginButton}
+          onClick={() => navigate('/login')}
+        >
+          Login
+        </button>
+      )}
     </nav>
   );
 };

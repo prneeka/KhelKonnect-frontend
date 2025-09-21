@@ -15,7 +15,8 @@ import OrganizerDashboard from './components/OrganizeDashboard';
 import ChessDashboard from './components/chess/ChessDashboard';
 import EventsList from './components/UserEvents/EventsList';
 import EventDetails from './components/UserEvents/EventDetails';
-import RegistrationPage from './components/UserEvents/RegistrationPage'; // Import the new page
+import RegistrationPage from './components/UserEvents/RegistrationPage';
+import UserDashboard from './components/UserDashboard/Dashboard'; // Import the new dashboard
 import './App.css';
 import './fonts.css';
 
@@ -63,8 +64,10 @@ function App() {
         {/* User Event Registration */}
         <Route path="/events" element={<EventsList />} />
         <Route path="/events/:eventId" element={<EventDetails />} />
-        {/* Add the new registration route */}
         <Route path="/register/:eventId/:sportId" element={<RegistrationPage />} />
+
+        {/* Add the new User Dashboard route */}
+        <Route path="/dashboard" element={<UserDashboard />} />
       </Routes>
     </Router>
   );
